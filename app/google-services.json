@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "355935162028",
+    "project_id": "smartdoorlock-iot",
+    "storage_bucket": "smartdoorlock-iot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355935162028:android:bc5dc3b75f843b82059909",
+        "android_client_info": {
+          "package_name": "com.smartdoorlock.iot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "355935162028-o57k6ntoh7egue80glt1fpr5hi3ma3go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHt0iisG-jOXo7o9X6B2pCjPXHT0qcU7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "355935162028-o57k6ntoh7egue80glt1fpr5hi3ma3go.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
