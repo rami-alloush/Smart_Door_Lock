@@ -1,18 +1,21 @@
 package com.smartdoorlock.iot;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -20,8 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Objects;
 
 public class UserHomeActivity extends AppCompatActivity {
@@ -67,7 +68,7 @@ public class UserHomeActivity extends AppCompatActivity {
                 holder.mState.setChecked(model.getState());
 
                 // Action for the Toggle Bottom to change the Device State
-                holder.mState.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) (compoundButton, b) -> {
+                holder.mState.setOnCheckedChangeListener((compoundButton, b) -> {
                     String deviceId = getSnapshots().getSnapshot(position).getId();
                     FirebaseFirestore.getInstance()
                             .collection("devices")
@@ -110,5 +111,32 @@ public class UserHomeActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    public void userSignOut() {
+        try {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Menu Functions
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem itemSignOut = menu.add(Menu.NONE, 10, Menu.NONE, getString(R.string.sign_out));
+        itemSignOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == 10) {
+            userSignOut();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

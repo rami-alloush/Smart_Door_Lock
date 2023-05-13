@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "355935162028-ipplml1lm18v3pcvff2pkfts01f8hqco.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smartdoorlock.iot",
+            "certificate_hash": "970149919acea3ab19b05356b1fe8394f4a41b3a"
+          }
+        },
+        {
+          "client_id": "355935162028-lrsb0t2u0gcop6hcs6k252t2gcn0p76l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smartdoorlock.iot",
+            "certificate_hash": "72970ad230c61ef7f468f457ac6d730764e31889"
+          }
+        },
+        {
           "client_id": "355935162028-o57k6ntoh7egue80glt1fpr5hi3ma3go.apps.googleusercontent.com",
           "client_type": 3
         }

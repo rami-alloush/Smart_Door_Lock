@@ -7,7 +7,6 @@ import java.util.Date;
 public class Device {
 
     private String mName;
-
     private Boolean mState;
     private Date mTimestamp;
 
