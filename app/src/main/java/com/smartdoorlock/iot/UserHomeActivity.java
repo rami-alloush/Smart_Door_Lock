@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -17,18 +16,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-
-import java.util.Objects;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 public class UserHomeActivity extends AppCompatActivity {
 
     private static final String TAG = "UserHomeActivity";
-    private FirestoreRecyclerAdapter<Device, DeviceHolder> adapter;
+    private FirebaseRecyclerAdapter<Device, DeviceHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,25 +40,26 @@ public class UserHomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    FirestoreRecyclerAdapter<Device, DeviceHolder> getDevicesAdapter() {
+    FirebaseRecyclerAdapter<Device, DeviceHolder> getDevicesAdapter() {
 
         // Get current user to use in the query
-        String userUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        Log.d(TAG, userUid);
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.d(TAG, "User UID: " + userUid);
 
         // Define the query that gets the data we need from FireStore
-        Query query = FirebaseFirestore
-                .getInstance()
-                .collection("devices")
-                .whereArrayContains("allowed_users", userUid);
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("devices")
+                .orderByChild("active_user")
+                .equalTo(userUid);
 
         // Convert the query into options object to assign the class for data mapping
-        FirestoreRecyclerOptions<Device> options = new FirestoreRecyclerOptions.Builder<Device>()
+        FirebaseRecyclerOptions<Device> options = new FirebaseRecyclerOptions.Builder<Device>()
                 .setQuery(query, Device.class)
                 .build();
 
         // Create the adapter with its essential methods and return it
-        return new FirestoreRecyclerAdapter<Device, UserHomeActivity.DeviceHolder>(options) {
+        return new FirebaseRecyclerAdapter<Device, UserHomeActivity.DeviceHolder>(options) {
             @Override
             public void onBindViewHolder(@NonNull DeviceHolder holder, int position, @NonNull Device model) {
                 // Bind the Device object to the DeviceHolder
@@ -69,11 +68,9 @@ public class UserHomeActivity extends AppCompatActivity {
 
                 // Action for the Toggle Bottom to change the Device State
                 holder.mState.setOnCheckedChangeListener((compoundButton, b) -> {
-                    String deviceId = getSnapshots().getSnapshot(position).getId();
-                    FirebaseFirestore.getInstance()
-                            .collection("devices")
-                            .document(deviceId)
-                            .update("state", b);
+                    String key = adapter.getRef(position).getKey();
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("devices");
+                    databaseReference.child(key).child("state").setValue(b);
                 });
             }
 

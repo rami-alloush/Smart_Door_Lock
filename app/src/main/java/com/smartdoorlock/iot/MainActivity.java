@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                     // redirect the user based on his type
                         redirectUser(userType);
                 } else {
-                    Log.d(TAG, "No such document. Sign Out");
-                    userSignOut();
+                    Log.d(TAG, "No such document. Skip Sign Out");
+                    redirectUser("normal");
                 }
             } else {
                 Log.d(TAG, "get failed with ", task.getException());
