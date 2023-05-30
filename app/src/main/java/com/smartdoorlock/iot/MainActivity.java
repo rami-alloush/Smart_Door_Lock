@@ -89,29 +89,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUserAndRedirect() {
+        redirectUser("normal");
+
         // Get user type
         // Connect to database and get the currentUser information
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users")
-                .document(mAuth.getCurrentUser().getUid());
-
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    // if the user exists on the database, check his type
-                    String userType = document.getString("type");
-                    Log.d(TAG, "DocumentSnapshot data: " + userType);
-                    // redirect the user based on his type
-                        redirectUser(userType);
-                } else {
-                    Log.d(TAG, "No such document. Skip Sign Out");
-                    redirectUser("normal");
-                }
-            } else {
-                Log.d(TAG, "get failed with ", task.getException());
-                userSignOut();
-            }
-        });
+//        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users")
+//                .document(mAuth.getCurrentUser().getUid());
+//
+//        docRef.get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                DocumentSnapshot document = task.getResult();
+//                if (document.exists()) {
+//                    // if the user exists on the database, check his type
+//                    String userType = document.getString("type");
+//                    Log.d(TAG, "DocumentSnapshot data: " + userType);
+//                    // redirect the user based on his type
+//                        redirectUser(userType);
+//                } else {
+//                    Log.d(TAG, "No such document. Skip Sign Out");
+//                    redirectUser("normal");
+//                }
+//            } else {
+//                Log.d(TAG, "get failed with ", task.getException());
+//                userSignOut();
+//            }
+//        });
     }
 
     /*
