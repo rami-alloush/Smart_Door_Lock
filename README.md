@@ -1,6 +1,6 @@
 # Smart_Door_Lock
 Android App to control smart locks.
-The project is completed using the ESP8266 WeMos-D1R2 and programmed it using Arduino Software/IDE.
+The project is completed using the *ESP8266 WeMos-D1R2* and programmed using Arduino Software/IDE.
 
 ## Guides
 - https://www.youtube.com/watch?v=0wYp7rd4IIo
